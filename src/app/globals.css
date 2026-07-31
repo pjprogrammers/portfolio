@@ -6,7 +6,8 @@
 
 /*
   Z-INDEX SCALE (systemic contexts only, nothing else on the page):
-  - z-0   3D hero blob canvas (hero backdrop)
+  - z-0   deep-space starfield background (fixed, spans entire viewport)
+  - z-0   hero blob canvas (absolute, later in DOM paints above starfield)
   - z-10  page content
   - z-50  fixed navigation
 

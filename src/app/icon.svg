@@ -1,36 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="gChip" x1="0" y1="0" x2="0" y2="96" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#0a0e15"/>
-      <stop offset="1" stop-color="#12161f"/>
-    </linearGradient>
-    <radialGradient id="gVignette" cx="0.5" cy="0.42" r="0.9">
-      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
-      <stop offset="1" stop-color="#000" stop-opacity="0.28"/>
+    <radialGradient id="gAura" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#8b5cf6" stop-opacity="0"/>
+      <stop offset="0.4" stop-color="#8b5cf6" stop-opacity="0.05"/>
+      <stop offset="0.72" stop-color="#8b5cf6" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="gA" x1="10" y1="22" x2="86" y2="74" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#74f2e2"/>
-      <stop offset="0.55" stop-color="#3ec9b9"/>
-      <stop offset="1" stop-color="#0e7f73"/>
+    <linearGradient id="gBody" gradientUnits="userSpaceOnUse" x1="10" y1="6" x2="54" y2="58">
+      <stop offset="0" stop-color="#e9d5ff"/>
+      <stop offset="0.16" stop-color="#8b5cf6"/>
+      <stop offset="0.38" stop-color="#4c1d95"/>
+      <stop offset="0.58" stop-color="#241744"/>
+      <stop offset="0.78" stop-color="#100b1e"/>
+      <stop offset="1" stop-color="#0d0a18"/>
     </linearGradient>
-    <linearGradient id="gB" x1="16" y1="82" x2="80" y2="16" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f4bd88"/>
-      <stop offset="0.55" stop-color="#dd8a4c"/>
-      <stop offset="1" stop-color="#a55220"/>
+    <linearGradient id="gGlare" gradientUnits="userSpaceOnUse" x1="32" y1="2" x2="32" y2="62">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="0.45" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
-    <linearGradient id="gC" x1="84" y1="30" x2="12" y2="66" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#a396f7"/>
-      <stop offset="0.55" stop-color="#7d6ae6"/>
-      <stop offset="1" stop-color="#4b38b4"/>
+    <linearGradient id="gRidge" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e9d5ff" stop-opacity="0.95"/>
+      <stop offset="0.65" stop-color="#c4b5fd" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="gBezel" gradientUnits="userSpaceOnUse" x1="26" y1="26" x2="38" y2="38">
+      <stop offset="0" stop-color="#d8b4fe"/>
+      <stop offset="0.45" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#4c1d95"/>
     </linearGradient>
   </defs>
-  <rect x="3" y="3" width="90" height="90" rx="21" fill="url(#gChip)"/>
-  <rect x="3" y="3" width="90" height="90" rx="21" fill="url(#gVignette)"/>
-  <rect x="3" y="3" width="90" height="90" rx="21" fill="none" stroke="rgba(237,239,243,0.14)" stroke-width="1.4"/>
-  <g>
-    <circle cx="38.47372055837117" cy="53.5" r="27" fill="none" stroke-width="8.5" stroke="url(#gB)" stroke-dasharray="40.84 22.62 42.73 22.62 40.84" transform="rotate(120 38.47372055837117 53.5)"/>
-    <circle cx="57.52627944162883" cy="53.5" r="27" fill="none" stroke-width="8.5" stroke="url(#gC)" stroke-dasharray="40.84 22.62 42.73 22.62 40.84"/>
-    <circle cx="48" cy="37" r="27" fill="none" stroke-width="8.5" stroke="url(#gA)" stroke-dasharray="59.69 22.62 42.73 22.62 21.99" transform="rotate(200 48 37)"/>
+  <circle cx="32" cy="32" r="31" fill="url(#gAura)"/>
+<g transform="rotate(45 32 32)" fill="url(#gBody)">
+    <path d="M 25.636 25.636 C 22.5 15.5 27.5 6.5 32 3 C 36.5 6.5 41.5 15.5 38.364 25.636 C 38.6 23.8 37.4 26 36.101 27.899 A 5.8 5.8 0 0 0 27.899 27.899 C 26.6 26 25.4 23.8 25.636 25.636 Z"/>
+    <path d="M 38.364 25.636 C 48.5 22.5 57.5 27.5 61 32 C 57.5 36.5 48.5 41.5 38.364 38.364 C 40.2 38.6 38 37.4 36.101 36.101 A 5.8 5.8 0 0 0 36.101 27.899 C 38 26.6 40.2 25.4 38.364 25.636 Z"/>
+    <path d="M 38.364 38.364 C 41.5 48.5 36.5 57.5 32 61 C 27.5 57.5 22.5 48.5 25.636 38.364 C 25.4 40.2 26.6 38 27.899 36.101 A 5.8 5.8 0 0 0 36.101 36.101 C 37.4 38 38.6 40.2 38.364 38.364 Z"/>
+    <path d="M 25.636 38.364 C 15.5 41.5 6.5 36.5 3 32 C 6.5 27.5 15.5 22.5 25.636 25.636 C 23.8 25.4 26 26.6 27.899 27.899 A 5.8 5.8 0 0 0 27.899 36.101 C 26 37.4 23.8 38.6 25.636 38.364 Z"/>
+  <g fill="url(#gGlare)">
+    <path d="M 25.636 25.636 C 22.5 15.5 27.5 6.5 32 3 C 36.5 6.5 41.5 15.5 38.364 25.636 C 38.6 23.8 37.4 26 36.101 27.899 A 5.8 5.8 0 0 0 27.899 27.899 C 26.6 26 25.4 23.8 25.636 25.636 Z"/>
+    <path d="M 38.364 25.636 C 48.5 22.5 57.5 27.5 61 32 C 57.5 36.5 48.5 41.5 38.364 38.364 C 40.2 38.6 38 37.4 36.101 36.101 A 5.8 5.8 0 0 0 36.101 27.899 C 38 26.6 40.2 25.4 38.364 25.636 Z"/>
+    <path d="M 38.364 38.364 C 41.5 48.5 36.5 57.5 32 61 C 27.5 57.5 22.5 48.5 25.636 38.364 C 25.4 40.2 26.6 38 27.899 36.101 A 5.8 5.8 0 0 0 36.101 36.101 C 37.4 38 38.6 40.2 38.364 38.364 Z"/>
+    <path d="M 25.636 38.364 C 15.5 41.5 6.5 36.5 3 32 C 6.5 27.5 15.5 22.5 25.636 25.636 C 23.8 25.4 26 26.6 27.899 27.899 A 5.8 5.8 0 0 0 27.899 36.101 C 26 37.4 23.8 38.6 25.636 38.364 Z"/>
   </g>
+    <path d="M 32 3 C 36.5 6.5 41.5 15.5 38.364 25.636" stroke="#d8b4fe" stroke-opacity="0.5" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M 61 32 C 57.5 36.5 48.5 41.5 38.364 38.364" stroke="#d8b4fe" stroke-opacity="0.5" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M 32 61 C 27.5 57.5 22.5 48.5 25.636 38.364" stroke="#d8b4fe" stroke-opacity="0.5" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M 3 32 C 6.5 27.5 15.5 22.5 25.636 25.636" stroke="#d8b4fe" stroke-opacity="0.5" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M 25.636 25.636 C 22.5 15.5 27.5 6.5 32 3" stroke="#6d28d9" stroke-opacity="0.45" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M 38.364 25.636 C 48.5 22.5 57.5 27.5 61 32" stroke="#6d28d9" stroke-opacity="0.45" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M 38.364 38.364 C 41.5 48.5 36.5 57.5 32 61" stroke="#6d28d9" stroke-opacity="0.45" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M 25.636 38.364 C 15.5 41.5 6.5 36.5 3 32" stroke="#6d28d9" stroke-opacity="0.45" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M 32 13 L 32 24.5" stroke="url(#gRidge)" stroke-width="0.9" stroke-linecap="round" fill="none"/>
+    <path d="M 51 32 L 39.5 32" stroke="url(#gRidge)" stroke-width="0.9" stroke-linecap="round" fill="none"/>
+    <path d="M 32 51 L 32 39.5" stroke="url(#gRidge)" stroke-width="0.9" stroke-linecap="round" fill="none"/>
+    <path d="M 13 32 L 24.5 32" stroke="url(#gRidge)" stroke-width="0.9" stroke-linecap="round" fill="none"/>
+  <circle cx="32" cy="32" r="6.15" fill="none" stroke="url(#gBezel)" stroke-width="1.05"/>
+</g>
 </svg>

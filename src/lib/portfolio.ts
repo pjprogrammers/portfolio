@@ -3,7 +3,7 @@ export const profile = {
   role: "AI Automation & Intelligent Solutions Intern",
   org: "CSRBOX",
   location: "Sirsa, Haryana, India",
-  email: "janusingla3007@gmail.com",
+  email: "jashansingla30@gmail.com",
   linkedin: "https://www.linkedin.com/in/singlajashan/",
   linkedinHandle: "in/singlajashan",
 };

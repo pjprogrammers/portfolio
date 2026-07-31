@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import Starfield from "@/components/starfield";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,9 +22,76 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Jashan Singla — Security Research & AI Systems",
+  metadataBase: new URL("https://jashansingla.dev"),
+  title: {
+    default: "Jashan Singla — Security Research & AI Systems",
+    template: "%s | Jashan Singla",
+  },
   description:
     "Jashan Singla. Penetration testing, digital forensics, OSINT, and agentic AI development.",
+  keywords: [
+    "Jashan Singla",
+    "cybersecurity",
+    "penetration testing",
+    "digital forensics",
+    "OSINT",
+    "agentic AI",
+    "security research",
+  ],
+  authors: [{ name: "Jashan Singla" }],
+  creator: "Jashan Singla",
+  publisher: "Jashan Singla",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "Jashan Singla",
+    title: "Jashan Singla — Security Research & AI Systems",
+    description:
+      "Jashan Singla. Penetration testing, digital forensics, OSINT, and agentic AI development.",
+    url: "https://jashansingla.dev",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Jashan Singla — Security Research & AI Systems",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jashan Singla — Security Research & AI Systems",
+    description:
+      "Jashan Singla. Penetration testing, digital forensics, OSINT, and agentic AI development.",
+    images: ["/twitter-image.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180" }],
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Jashan Singla",
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  category: "technology",
 };
 
 export const viewport: Viewport = {
@@ -40,6 +108,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable} bg-background font-sans text-foreground antialiased`}
       >
+        <Starfield />
         {children}
       </body>
     </html>
