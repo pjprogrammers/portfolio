@@ -60,26 +60,18 @@ export const metadata: Metadata = {
     description:
       "Jashan Singla. Penetration testing, digital forensics, OSINT, and agentic AI development.",
     url: "https://jashansingla.dev",
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Jashan Singla — Security Research & AI Systems",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Jashan Singla — Security Research & AI Systems",
     description:
       "Jashan Singla. Penetration testing, digital forensics, OSINT, and agentic AI development.",
-    images: ["/twitter-image.png"],
   },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
       { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png" },
     ],
     apple: [{ url: "/apple-icon.png", sizes: "180x180" }],
   },
