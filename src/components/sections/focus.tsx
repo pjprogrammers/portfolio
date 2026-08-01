@@ -18,7 +18,7 @@ export function Focus() {
         <Reveal>
           <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border min-[761px]:grid-cols-2">
             {focusAreas.map((area, i) => (
-              <article key={area.tag} className="bg-card p-10">
+              <article key={area.tag} className="bg-card/85 p-10">
                 <span
                   className={`mb-[18px] block font-mono text-xs uppercase tracking-[0.06em] ${i === 1 ? "text-primary" : "text-amber"}`}
                 >
