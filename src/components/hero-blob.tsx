@@ -177,7 +177,7 @@ type Tier = "desktop" | "tablet" | "mobile";
 const TIER_CONFIG = {
   desktop: 0.6,
   tablet: 0.7,
-  mobile: 0.75,
+  mobile: 0.45,
 } as const;
 
 function tierFor(width: number, height: number): Tier {
