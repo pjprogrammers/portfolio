@@ -80,7 +80,7 @@ function WorkRow({ item }: { item: WorkItem }) {
           </div>
         </a>
 
-        <div className="pointer-events-none absolute bottom-4 left-8 right-8 flex items-center justify-between max-[700px]:static max-[700px]:bottom-auto max-[700px]:left-auto max-[700px]:right-auto max-[700px]:border-b max-[700px]:border-border max-[700px]:bg-card max-[700px]:px-5 max-[700px]:py-[14px]">
+        <div className="pointer-events-none absolute bottom-4 left-8 right-8 flex items-center justify-between max-[700px]:static max-[700px]:bottom-auto max-[700px]:left-auto max-[700px]:right-auto max-[700px]:border-b max-[700px]:border-border max-[700px]:px-5 max-[700px]:py-[14px]">
           <span className="pointer-events-auto font-serif italic text-base text-foreground">
             {item.name}
           </span>
