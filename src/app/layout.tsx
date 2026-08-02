@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Fraunces, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import Starfield from "@/components/starfield";
 import "./globals.css";
 
@@ -21,8 +21,16 @@ const jetBrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  style: ["italic"],
+  weight: "500",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://jashansingla.dev"),
+  metadataBase: new URL("https://jashansingla.vercel.app"),
   title: {
     default: "Jashan Singla — Security Research & AI Systems",
     template: "%s | Jashan Singla",
@@ -59,7 +67,7 @@ export const metadata: Metadata = {
     title: "Jashan Singla — Security Research & AI Systems",
     description:
       "Jashan Singla. Penetration testing, digital forensics, OSINT, and agentic AI development.",
-    url: "https://jashansingla.dev",
+    url: "https://jashansingla.vercel.app",
   },
   twitter: {
     card: "summary_large_image",
@@ -98,7 +106,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable} bg-background font-sans text-foreground antialiased`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable} ${fraunces.variable} bg-background font-sans text-foreground antialiased`}
       >
         <Starfield />
         {children}

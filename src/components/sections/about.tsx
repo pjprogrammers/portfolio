@@ -13,7 +13,7 @@ export function About() {
               alt="Portrait of Jashan Singla"
               ratio="3/4"
               specPath="about/portrait.jpg"
-              className="max-w-md lg:sticky lg:top-24"
+              className="mx-auto max-w-md lg:sticky lg:top-24"
             />
           </Reveal>
 

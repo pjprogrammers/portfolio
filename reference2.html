@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jashan Singla — Security Research & AI Systems</title>
+<meta name="description" content="Jashan Singla. Penetration testing, digital forensics, OSINT, and agentic AI development.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #090b10;
+    --surface: #10141c;
+    --surface-2: #161c27;
+    --line: rgba(237,239,243,0.09);
+    --text: #edeff3;
+    --muted: #8891a3;
+    --teal: #63e8d8;
+    --amber: #e8a672;
+    --violet: #8f7cf0;
+    --max: 1160px;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-serif: 'Fraunces', serif;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.6;
+    overflow-x:hidden;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(237,239,243,0.05) 1px, transparent 0);
+    background-size: 28px 28px;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+
+  ::selection{ background:var(--teal); color:#04110f; }
+
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 32px; }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    backdrop-filter: blur(10px);
+    background:rgba(9,11,16,0.6);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .logo{
+    font-family:var(--font-display); font-weight:700; font-size:18px;
+    letter-spacing:0.01em;
+  }
+  .logo span{ color:var(--teal); }
+  .nav-links{ display:flex; gap:32px; align-items:center; }
+  .nav-links a{
+    font-size:14px; color:var(--muted); transition:color .2s ease;
+    font-family:var(--font-mono);
+  }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-cta{
+    border:1px solid var(--line); padding:9px 16px; border-radius:100px;
+    font-size:13px; font-family:var(--font-mono); color:var(--text) !important;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .nav-cta:hover{ border-color:var(--teal); background:rgba(99,232,216,0.08); }
+  .nav-toggle{ display:none; }
+
+  @media (max-width:760px){
+    .nav-links a:not(.nav-cta){ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex; align-items:center;
+    padding-top:72px;
+  }
+  #hero-canvas{
+    position:absolute; top:0; right:0;
+    width:56%; height:100%;
+    pointer-events:none;
+    opacity:0.95;
+  }
+  .hero-inner{
+    position:relative; z-index:2;
+    max-width:640px;
+  }
+  .eyebrow{
+    font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--teal);
+    display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:''; width:7px; height:7px; border-radius:50%;
+    background:var(--teal); box-shadow:0 0 12px var(--teal);
+  }
+  .hero h1{
+    font-family:var(--font-display); font-weight:600;
+    font-size:clamp(2.6rem, 5.4vw, 4.4rem);
+    line-height:1.06; letter-spacing:-0.02em;
+    margin-bottom:24px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    background:linear-gradient(100deg, var(--teal), var(--amber));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p.lede{
+    font-size:17px; color:var(--muted); max-width:520px; margin-bottom:36px;
+  }
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:13px 22px; border-radius:8px; font-size:14px; font-weight:500;
+    font-family:var(--font-body);
+    transition:transform .18s ease, background .18s ease, border-color .18s ease;
+  }
+  .btn-primary{ background:var(--teal); color:#04110f; }
+  .btn-primary:hover{ transform:translateY(-2px); background:#7ff0e1; }
+  .btn-ghost{ border:1px solid var(--line); color:var(--text); }
+  .btn-ghost:hover{ transform:translateY(-2px); border-color:var(--muted); }
+
+  .scroll-cue{
+    position:absolute; bottom:34px; left:32px;
+    font-family:var(--font-mono); font-size:12px; color:var(--muted);
+    display:flex; align-items:center; gap:10px;
+  }
+  .scroll-cue .line{ width:36px; height:1px; background:var(--muted); position:relative; overflow:hidden; }
+  .scroll-cue .line::after{
+    content:''; position:absolute; left:-100%; top:0; width:100%; height:100%;
+    background:var(--teal); animation:scrollline 2.4s ease-in-out infinite;
+  }
+  @keyframes scrollline{ 0%{left:-100%;} 50%{left:0;} 100%{left:100%;} }
+
+  @media (max-width:900px){
+    #hero-canvas{ width:100%; opacity:0.35; }
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{ padding:120px 0; position:relative; }
+  .section-head{ margin-bottom:56px; max-width:640px; }
+  .section-num{
+    font-family:var(--font-mono); font-size:13px; color:var(--teal);
+    margin-bottom:14px; display:block;
+  }
+  .section-head h2{
+    font-family:var(--font-display); font-weight:600;
+    font-size:clamp(1.8rem, 3vw, 2.5rem); letter-spacing:-0.01em;
+    margin-bottom:14px;
+  }
+  .section-head p{ color:var(--muted); font-size:16px; }
+
+  /* ---------- FOCUS ---------- */
+  .focus-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:16px;
+    overflow:hidden;
+  }
+  .focus-card{ background:var(--surface); padding:40px; }
+  .focus-card h3{
+    font-family:var(--font-display); font-size:22px; font-weight:600; margin-bottom:10px;
+  }
+  .focus-card .tag{
+    font-family:var(--font-mono); font-size:12px; color:var(--amber);
+    text-transform:uppercase; letter-spacing:0.06em; margin-bottom:18px; display:block;
+  }
+  .focus-card p{ color:var(--muted); font-size:15px; margin-bottom:24px; }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    font-family:var(--font-mono); font-size:12.5px; padding:7px 12px;
+    border:1px solid var(--line); border-radius:6px; color:var(--text);
+    background:rgba(255,255,255,0.02);
+  }
+  .focus-card:nth-child(2) .tag{ color:var(--teal); }
+
+  .throughline{
+    margin-top:40px; padding:24px 28px; border-left:2px solid var(--teal);
+    background:rgba(99,232,216,0.05); border-radius:0 10px 10px 0;
+    color:var(--text); font-size:15px; max-width:760px;
+  }
+
+  @media (max-width:760px){
+    .focus-grid{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- FEATURED WORK ---------- */
+  .work-section .section-head{
+    max-width:760px; margin-left:auto; margin-right:auto; text-align:center;
+  }
+  .work-section .eyebrow-static{
+    font-family:var(--font-mono); font-size:13px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:22px;
+  }
+  .work-headline{
+    font-family:var(--font-serif); font-style:italic; font-weight:500;
+    font-size:clamp(1.8rem, 4vw, 3rem); line-height:1.32; letter-spacing:-0.01em;
+    color:var(--text);
+  }
+  .work-headline .accent{ color:var(--teal); font-style:normal; }
+
+  /* continuous strip: no gap between rows, images touch top to bottom */
+  .work-strip{ margin-top:80px; }
+  .work-row{
+    position:relative;
+  }
+  .work-img-link{
+    display:block; cursor:pointer;
+  }
+  .work-img-wrap{
+    width:min(920px, 84%); margin:0 auto;
+    overflow:hidden;
+    transform-origin:50% 50%; will-change:transform;
+    transform:perspective(1000px) rotateX(0deg);
+    transition:filter .25s ease;
+  }
+  .work-img-link:hover .work-img-wrap{ filter:brightness(1.08); }
+  .work-img{
+    width:100%; height:440px; display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden;
+  }
+  .work-img::after{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(circle at 78% 22%, rgba(255,255,255,0.14), transparent 55%);
+  }
+  .work-wordmark{
+    position:relative; z-index:2;
+    font-family:var(--font-display); font-weight:600;
+    font-size:clamp(2.2rem, 5vw, 3.6rem); letter-spacing:-0.01em;
+    color:rgba(237,239,243,0.94); display:flex; align-items:center; gap:6px;
+  }
+  .work-wordmark .slash{ color:var(--teal); }
+  .work-img.tone-vyapar{ background:linear-gradient(160deg, #0e1c1a, #123028 55%, #0a1210); }
+  .work-img.tone-blob{ background:linear-gradient(160deg, #14101f, #221a3a 55%, #0c0a14); }
+
+  /* name (left) + see live (right), sitting in the gutters at the bottom of each image */
+  .work-caption{
+    position:absolute; left:32px; right:32px; bottom:16px;
+    display:flex; justify-content:space-between; align-items:center;
+    pointer-events:none;
+  }
+  .work-caption > *{ pointer-events:auto; }
+  .work-name{
+    font-family:var(--font-serif); font-style:italic; font-size:16px; color:var(--text);
+  }
+  .work-cta{
+    font-family:var(--font-body); font-size:14px; color:var(--muted);
+    border-bottom:1px solid transparent; transition:color .2s ease, border-color .2s ease;
+  }
+  .work-cta:hover{ color:var(--teal); border-color:var(--teal); }
+
+  @media (max-width:700px){
+    .work-strip{ margin-top:56px; }
+    .work-img-wrap{ width:100%; }
+    .work-img{ height:260px; }
+    /* on mobile the image runs edge to edge, so the caption drops below it
+       as its own full-width bar instead of sitting in a side gutter */
+    .work-caption{
+      position:static; left:auto; right:auto; bottom:auto;
+      padding:14px 20px; background:var(--surface);
+      border-bottom:1px solid var(--line);
+    }
+  }
+
+  /* ---------- EXPERIENCE ---------- */
+  .timeline{ position:relative; }
+  .timeline::before{
+    content:''; position:absolute; left:56px; top:8px; bottom:8px; width:1px;
+    background:var(--line);
+  }
+  .tl-item{
+    position:relative; padding-left:120px; margin-bottom:56px;
+  }
+  .tl-item:last-child{ margin-bottom:0; }
+  .tl-date{
+    position:absolute; left:0; top:2px; width:90px;
+    font-family:var(--font-mono); font-size:12.5px; color:var(--muted); text-align:right;
+  }
+  .tl-dot{
+    position:absolute; left:52px; top:6px; width:9px; height:9px; border-radius:50%;
+    background:var(--ink); border:2px solid var(--teal);
+  }
+  .tl-item.current .tl-dot{ background:var(--teal); box-shadow:0 0 14px var(--teal); }
+  .tl-item h3{ font-family:var(--font-display); font-size:19px; font-weight:600; margin-bottom:2px; }
+  .tl-item .org{ font-family:var(--font-mono); font-size:13px; color:var(--amber); margin-bottom:14px; display:block; }
+  .tl-item ul{ list-style:none; }
+  .tl-item li{
+    position:relative; padding-left:18px; margin-bottom:9px; color:var(--muted); font-size:14.5px;
+  }
+  .tl-item li::before{
+    content:''; position:absolute; left:0; top:9px; width:5px; height:5px; border-radius:50%;
+    background:var(--teal); opacity:0.7;
+  }
+  .tools-line{
+    font-family:var(--font-mono); font-size:12.5px; color:var(--muted); margin-top:12px;
+  }
+  .tools-line b{ color:var(--text); font-weight:500; }
+
+  @media (max-width:600px){
+    .timeline::before{ left:8px; }
+    .tl-item{ padding-left:34px; }
+    .tl-dot{ left:4px; }
+    .tl-date{ position:static; text-align:left; margin-bottom:6px; display:block; width:auto; }
+  }
+
+  /* ---------- EDUCATION ---------- */
+  .edu-card{
+    border:1px solid var(--line); border-radius:16px; padding:36px 40px;
+    background:linear-gradient(135deg, rgba(99,232,216,0.05), rgba(143,124,240,0.04));
+    display:flex; justify-content:space-between; align-items:flex-start; gap:24px; flex-wrap:wrap;
+  }
+  .edu-card h3{ font-family:var(--font-display); font-size:20px; font-weight:600; margin-bottom:6px; }
+  .edu-card .school{ color:var(--muted); font-size:14.5px; }
+  .edu-card .when{ font-family:var(--font-mono); font-size:13px; color:var(--teal); white-space:nowrap; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-section{ padding-bottom:80px; }
+  .contact-card{
+    border:1px solid var(--line); border-radius:20px; padding:64px 48px;
+    text-align:center; position:relative; overflow:hidden;
+    background:radial-gradient(circle at 50% 0%, rgba(99,232,216,0.08), transparent 60%);
+  }
+  .contact-card h2{
+    font-family:var(--font-display); font-weight:600;
+    font-size:clamp(1.8rem,4vw,2.8rem); margin-bottom:16px; letter-spacing:-0.01em;
+  }
+  .contact-card p{ color:var(--muted); max-width:480px; margin:0 auto 32px; }
+  .contact-actions{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .location-note{
+    margin-top:28px; font-family:var(--font-mono); font-size:12.5px; color:var(--muted);
+  }
+
+  footer{
+    border-top:1px solid var(--line); padding:28px 0;
+  }
+  footer .wrap{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:var(--font-mono); font-size:12.5px; color:var(--muted);
+    flex-wrap:wrap; gap:10px;
+  }
+
+  /* reveal on scroll */
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ transition:none; opacity:1; transform:none; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo">JS<span>.</span></div>
+    <div class="nav-links">
+      <a href="#focus">Focus</a>
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="mailto:janusingla3007@gmail.com" class="nav-cta">Say hello</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="eyebrow">Security Research · AI Systems</div>
+      <h1>I look for the door <em>nobody locked</em>.</h1>
+      <p class="lede">
+        AI Automation & Intelligent Solutions Intern at CSRBOX, building agentic
+        AI workflows by day and probing broken authentication, access control,
+        and injection flaws the rest of the time. BTech in Artificial
+        Intelligence, based in Sirsa, Haryana.
+      </p>
+      <div class="hero-actions">
+        <a href="#work" class="btn btn-primary">See the work</a>
+        <a href="mailto:janusingla3007@gmail.com" class="btn btn-ghost">Email me</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span class="line"></span> SCROLL</div>
+</section>
+
+<section id="focus">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">01 / Focus</span>
+      <h2>Two disciplines, one habit of mind.</h2>
+      <p>Find the weak point before it gets exploited. Then automate the parts that don't need a human.</p>
+    </div>
+
+    <div class="focus-grid reveal">
+      <div class="focus-card">
+        <span class="tag">Offense & Forensics</span>
+        <h3>Breaking things on purpose</h3>
+        <p>Hands-on experience identifying and mitigating vulnerabilities across web
+        applications, plus OSINT work tracing digital footprints and online threats.</p>
+        <div class="chip-row">
+          <span class="chip">SQL Injection</span>
+          <span class="chip">XSS</span>
+          <span class="chip">CSRF</span>
+          <span class="chip">Broken Access Control</span>
+          <span class="chip">Broken Authentication</span>
+          <span class="chip">IDOR</span>
+          <span class="chip">Binary Exploitation</span>
+          <span class="chip">OSINT</span>
+        </div>
+      </div>
+      <div class="focus-card">
+        <span class="tag">Automation & AI</span>
+        <h3>Building smarter systems</h3>
+        <p>Working on AI automation, intelligent workflow orchestration, and
+        fine-tuning large language models for domain-specific applications.</p>
+        <div class="chip-row">
+          <span class="chip">Workflow Management</span>
+          <span class="chip">LLMOps</span>
+          <span class="chip">Agentic AI Development</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="throughline reveal">
+      The goal underneath both: strengthen security systems ethically, protect
+      sensitive data, and contribute to a safer digital environment, whether
+      that means filing a vulnerability report or shipping an agent that
+      catches the next one automatically.
+    </div>
+  </div>
+</section>
+
+<section id="work" class="work-section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow-static">Featured Work</div>
+      <h2 class="work-headline">Finding the flaw before it finds<span class="accent">*</span> someone else, then building the system that catches it next time.</h2>
+    </div>
+  </div>
+
+  <div class="work-strip">
+    <div class="work-row reveal">
+      <a class="work-img-link" href="work.html#vyaparai" aria-label="View VyaparAI case study">
+        <div class="work-img-wrap">
+          <div class="work-img tone-vyapar">
+            <div class="work-wordmark"><span class="slash">/</span>vyapar.ai</div>
+          </div>
+        </div>
+      </a>
+      <div class="work-caption">
+        <span class="work-name">VyaparAI</span>
+        <a class="work-cta" href="work.html#vyaparai">See live</a>
+      </div>
+    </div>
+
+    <div class="work-row reveal">
+      <a class="work-img-link" href="work.html#blob" aria-label="View Iridescent Blob Shader case study">
+        <div class="work-img-wrap">
+          <div class="work-img tone-blob">
+            <div class="work-wordmark"><span class="slash">/</span>iridescent.blob</div>
+          </div>
+        </div>
+      </a>
+      <div class="work-caption">
+        <span class="work-name">Iridescent Blob Shader</span>
+        <a class="work-cta" href="work.html#blob">See live</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">03 / Experience</span>
+      <h2>Where the hours went.</h2>
+      <p>Three internships, in order, each one narrowing the gap between finding a problem and fixing it.</p>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="tl-item current">
+        <span class="tl-date">2026 &mdash; Now</span>
+        <span class="tl-dot"></span>
+        <h3>AI Automation & Intelligent Solutions Intern</h3>
+        <span class="org">CSRBOX, Haryana, India</span>
+        <ul>
+          <li>Selected for the IBM SkillsBuild Academic Internship 2026, run by BharatCares (CSRBOX Group) with AICTE.</li>
+          <li>Working on AI automation, workflow orchestration, and AI-powered project development.</li>
+          <li>Fine-tuning large language models for domain-specific applications.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-date">Sep 2025</span>
+        <span class="tl-dot"></span>
+        <h3>OSINT Intern</h3>
+        <span class="org">Cyber Secured India, Remote</span>
+        <ul>
+          <li>Completed the four-week "CTRL. ALT. ACT." OSINT internship with MKITOS.</li>
+          <li>Ran image and metadata analysis, and investigated fake news networks, phishing sites, and malicious domains.</li>
+          <li>Learned ethical reporting, data verification, and safe submission of intelligence findings.</li>
+          <li>Awarded the Achievers Certificate on completion.</li>
+        </ul>
+        <div class="tools-line">Tools: <b>Google Lens · TinEye · Yandex · Google Earth</b></div>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-date">Apr &ndash; Jul 2025</span>
+        <span class="tl-dot"></span>
+        <h3>Cybersecurity and Forensics Intern</h3>
+        <span class="org">Cyber Secured India, Haryana, India</span>
+        <ul>
+          <li>Identified, analyzed, and mitigated common security vulnerabilities in simulated environments.</li>
+          <li>Researched emerging threats and proposed security practices for networks, applications, and cloud environments.</li>
+          <li>Documented findings, remediation strategies, and preventive measures in technical reports.</li>
+        </ul>
+        <div class="tools-line">Tools: <b>Wireshark · Nmap · Burp Suite · Metasploit</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">04 / Education</span>
+      <h2>Formal training, in progress.</h2>
+    </div>
+    <div class="edu-card reveal">
+      <div>
+        <h3>Bachelor of Technology, Artificial Intelligence</h3>
+        <div class="school">Jan Nayak Ch. Devi Lal Vidyapeeth, Sirsa</div>
+      </div>
+      <div class="when">Aug 2025 &ndash; Aug 2029</div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <div class="wrap">
+    <div class="contact-card reveal">
+      <h2>Have something worth breaking?</h2>
+      <p>Open to internships and collaborations across security research and AI automation. I read every email myself.</p>
+      <div class="contact-actions">
+        <a href="mailto:janusingla3007@gmail.com" class="btn btn-primary">janusingla3007@gmail.com</a>
+        <a href="https://www.linkedin.com/in/singlajashan/" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn ↗</a>
+      </div>
+      <div class="location-note">Sirsa, Haryana, India</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Jashan Singla</span>
+    <span>Built with curiosity, Three.js, and one too many CTFs.</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  // ---------- scroll reveal ----------
+  var els = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold:0.12 });
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // ---------- featured work: 3D scroll bend effect ----------
+  var workImgs = Array.prototype.slice.call(document.querySelectorAll('.work-img-wrap'));
+  var reduceMotionBend = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if(workImgs.length && !reduceMotionBend){
+    var bendState = workImgs.map(function(){ return { current:0 }; });
+    var maxAngle = 18;      // degrees of tilt at the edges of the viewport
+    var maxScale = 0.08;    // how much the card shrinks when tilted
+
+    function updateBend(){
+      var vh = window.innerHeight;
+      var vCenter = vh / 2;
+
+      workImgs.forEach(function(el, i){
+        var rect = el.getBoundingClientRect();
+        var elCenter = rect.top + rect.height / 2;
+        // -1 when the card center is at the bottom of the screen,
+        //  0 when it's dead center, +1 when it's at the top.
+        var progress = (vCenter - elCenter) / (vCenter + rect.height / 2);
+        progress = Math.max(-1, Math.min(1, progress));
+
+        var state = bendState[i];
+        state.current += (progress - state.current) * 0.12;
+
+        var angle = state.current * maxAngle;
+        var scale = 1 - Math.abs(state.current) * maxScale;
+
+        el.style.transform =
+          'perspective(1000px) rotateX(' + angle.toFixed(2) + 'deg) scale(' + scale.toFixed(3) + ')';
+      });
+    }
+
+    // continuous rAF loop keeps the tilt in sync with scroll and lets it
+    // settle smoothly via lerp, rather than snapping on scroll events.
+    (function loop(){
+      requestAnimationFrame(loop);
+      updateBend();
+    })();
+  }
+
+  // ---------- hero shader blob ----------
+  var canvas = document.getElementById('hero-canvas');
+  if(!canvas || typeof THREE === 'undefined') return;
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var heroSection = document.querySelector('.hero');
+  var renderer = new THREE.WebGLRenderer({ canvas:canvas, alpha:true, antialias:true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+  camera.position.z = 4.4;
+
+  var vertexShader = [
+    "uniform float uTime;",
+    "uniform vec2 uMouse;",
+    "varying vec3 vNormal;",
+    "varying vec3 vViewPosition;",
+    "varying float vNoise;",
+
+    "vec3 mod289(vec3 x){ return x - floor(x * (1.0/289.0)) * 289.0; }",
+    "vec4 mod289(vec4 x){ return x - floor(x * (1.0/289.0)) * 289.0; }",
+    "vec4 permute(vec4 x){ return mod289(((x*34.0)+1.0)*x); }",
+    "vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314 * r; }",
+
+    "float snoise(vec3 v){",
+    "  const vec2 C = vec2(1.0/6.0, 1.0/3.0);",
+    "  const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);",
+    "  vec3 i  = floor(v + dot(v, C.yyy));",
+    "  vec3 x0 = v - i + dot(i, C.xxx);",
+    "  vec3 g = step(x0.yzx, x0.xyz);",
+    "  vec3 l = 1.0 - g;",
+    "  vec3 i1 = min(g.xyz, l.zxy);",
+    "  vec3 i2 = max(g.xyz, l.zxy);",
+    "  vec3 x1 = x0 - i1 + C.xxx;",
+    "  vec3 x2 = x0 - i2 + C.yyy;",
+    "  vec3 x3 = x0 - D.yyy;",
+    "  i = mod289(i);",
+    "  vec4 p = permute(permute(permute(",
+    "            i.z + vec4(0.0, i1.z, i2.z, 1.0))",
+    "          + i.y + vec4(0.0, i1.y, i2.y, 1.0))",
+    "          + i.x + vec4(0.0, i1.x, i2.x, 1.0));",
+    "  float n_ = 0.142857142857;",
+    "  vec3 ns = n_ * D.wyz - D.xzx;",
+    "  vec4 j = p - 49.0 * floor(p * ns.z * ns.z);",
+    "  vec4 x_ = floor(j * ns.z);",
+    "  vec4 y_ = floor(j - 7.0 * x_);",
+    "  vec4 x = x_ * ns.x + ns.yyyy;",
+    "  vec4 y = y_ * ns.x + ns.yyyy;",
+    "  vec4 h = 1.0 - abs(x) - abs(y);",
+    "  vec4 b0 = vec4(x.xy, y.xy);",
+    "  vec4 b1 = vec4(x.zw, y.zw);",
+    "  vec4 s0 = floor(b0) * 2.0 + 1.0;",
+    "  vec4 s1 = floor(b1) * 2.0 + 1.0;",
+    "  vec4 sh = -step(h, vec4(0.0));",
+    "  vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;",
+    "  vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;",
+    "  vec3 p0 = vec3(a0.xy, h.x);",
+    "  vec3 p1 = vec3(a0.zw, h.y);",
+    "  vec3 p2 = vec3(a1.xy, h.z);",
+    "  vec3 p3 = vec3(a1.zw, h.w);",
+    "  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));",
+    "  p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;",
+    "  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);",
+    "  m = m * m;",
+    "  return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));",
+    "}",
+
+    "void main(){",
+    "  vNormal = normalize(normalMatrix * normal);",
+    "  vec3 pos = position;",
+    "  float freq = 1.5;",
+    "  float amp = 0.32;",
+    "  vec2 mouseInfluence = uMouse * 0.55;",
+    "  float n = snoise(vec3(pos.x * freq + mouseInfluence.x, pos.y * freq + mouseInfluence.y, pos.z * freq + uTime * 0.26));",
+    "  vNoise = n;",
+    "  pos += normal * n * amp;",
+    "  vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);",
+    "  vViewPosition = -mvPosition.xyz;",
+    "  gl_Position = projectionMatrix * mvPosition;",
+    "}"
+  ].join("\n");
+
+  var fragmentShader = [
+    "uniform float uTime;",
+    "varying vec3 vNormal;",
+    "varying vec3 vViewPosition;",
+    "varying float vNoise;",
+
+    "void main(){",
+    "  vec3 viewDir = normalize(vViewPosition);",
+    "  float fresnel = pow(1.0 - max(dot(normalize(vNormal), viewDir), 0.0), 2.1);",
+    "  float hueShift = vNoise * 0.7 + fresnel * 1.3 + uTime * 0.05;",
+    "  vec3 colorA = vec3(0.098, 0.906, 0.847);",
+    "  vec3 colorB = vec3(0.909, 0.651, 0.447);",
+    "  vec3 colorC = vec3(0.42, 0.36, 0.9);",
+    "  vec3 grad = mix(colorA, colorB, 0.5 + 0.5 * sin(hueShift));",
+    "  grad = mix(grad, colorC, 0.5 + 0.5 * sin(hueShift * 1.7 + 2.0));",
+    "  vec3 base = vec3(0.02, 0.03, 0.05);",
+    "  vec3 color = mix(base, grad, fresnel * 1.35 + 0.14);",
+    "  color += fresnel * 0.22;",
+    "  gl_FragColor = vec4(color, 1.0);",
+    "}"
+  ].join("\n");
+
+  var geometry = new THREE.IcosahedronGeometry(1.55, 5);
+  var material = new THREE.ShaderMaterial({
+    uniforms:{
+      uTime:{ value:0 },
+      uMouse:{ value:new THREE.Vector2(0,0) }
+    },
+    vertexShader:vertexShader,
+    fragmentShader:fragmentShader
+  });
+  var blob = new THREE.Mesh(geometry, material);
+  scene.add(blob);
+
+  var mouseTarget = { x:0, y:0 };
+  var mouseCurrent = { x:0, y:0 };
+
+  function onMove(clientX, clientY){
+    var rect = heroSection.getBoundingClientRect();
+    mouseTarget.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    mouseTarget.y = -(((clientY - rect.top) / rect.height) * 2 - 1);
+  }
+  window.addEventListener('mousemove', function(e){ onMove(e.clientX, e.clientY); });
+  window.addEventListener('touchmove', function(e){
+    if(e.touches && e.touches[0]){ onMove(e.touches[0].clientX, e.touches[0].clientY); }
+  }, { passive:true });
+
+  function resize(){
+    var w = canvas.clientWidth || canvas.offsetWidth || 600;
+    var h = canvas.clientHeight || canvas.offsetHeight || 600;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  var clock = new THREE.Clock();
+  var frameSkip = 0;
+
+  function animate(){
+    requestAnimationFrame(animate);
+
+    if(reduceMotion){
+      frameSkip++;
+      if(frameSkip % 4 !== 0) return;
+    }
+
+    var t = clock.getElapsedTime();
+    mouseCurrent.x += (mouseTarget.x - mouseCurrent.x) * 0.04;
+    mouseCurrent.y += (mouseTarget.y - mouseCurrent.y) * 0.04;
+
+    material.uniforms.uTime.value = t;
+    material.uniforms.uMouse.value.set(mouseCurrent.x, mouseCurrent.y);
+
+    blob.rotation.y = t * 0.12 + mouseCurrent.x * 0.3;
+    blob.rotation.x = mouseCurrent.y * 0.2;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+</script>
+
+</body>
+</html>

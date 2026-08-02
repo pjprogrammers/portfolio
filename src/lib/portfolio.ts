@@ -9,7 +9,9 @@ export const profile = {
 };
 
 export const navLinks = [
+  { label: "Home", href: "#top" },
   { label: "Focus", href: "#focus" },
+  { label: "Work", href: "#work" },
   { label: "Experience", href: "#experience" },
   { label: "Education", href: "#education" },
 ];
@@ -49,6 +51,108 @@ export const focusAreas: FocusArea[] = [
 
 export const throughline =
   "The goal underneath both: strengthen security systems ethically, protect sensitive data, and contribute to a safer digital environment, whether that means filing a vulnerability report or shipping an agent that catches the next one automatically.";
+
+export type WorkItem = {
+  id: string;
+  name: string;
+  wordmark: string;
+  background: string;
+  href: string;
+  ariaLabel: string;
+  context: string;
+  summary: string;
+  tags: string[];
+  highlights: string[];
+};
+
+export const work: WorkItem[] = [
+  {
+    id: "tavrynewallpapers",
+    name: "Tavryne Wallpapers",
+    wordmark: "tavryne.wallpapers",
+    background: "linear-gradient(160deg, #050505, #0a0f0c 55%, #040404)",
+    href: "https://tavrynewallpapers.vercel.app/",
+    ariaLabel: "Visit Tavryne Wallpapers",
+    context: "Independent project",
+    summary:
+      "A wallpaper gallery with a near-black, mint-and-red visual identity. Browse curated collections across Abstract, Anime, Cars, Movies, and 4K categories, with a clean card-based grid and quick download flow.",
+    tags: ["Next.js", "Tailwind CSS", "Vercel"],
+    highlights: [
+      "Curated collections split across five categories with a strong mint-and-red art direction.",
+      "Responsive card grid tuned for browsing on both desktop and mobile.",
+      "Fast static rendering for instant image loads and snappy page transitions.",
+    ],
+  },
+  {
+    id: "tavryneai",
+    name: "Tavryne AI",
+    wordmark: "tavryne.ai",
+    background: "linear-gradient(160deg, #0a0a0a, #16102a 55%, #080808)",
+    href: "https://tavryneai.vercel.app/",
+    ariaLabel: "Visit Tavryne AI",
+    context: "Independent project",
+    summary:
+      "A vibe-coding platform that turns a plain-language idea into a working website or app. Typed prompts get routed to code-generation models, with an editor-and-preview layout and model picker behind the scenes.",
+    tags: ["Next.js", "AI Code Generation", "OpenRouter", "NVIDIA NIM"],
+    highlights: [
+      "Prompt-to-app pipeline with a live editor and preview pane.",
+      "Model routing across multiple generation backends.",
+      "Violet-on-black interface built for fast, focus-forward iteration.",
+    ],
+  },
+  {
+    id: "vyaparai",
+    name: "VyaparAI",
+    wordmark: "vyapar.ai",
+    background: "linear-gradient(160deg, #0e0b05, #1c1608 55%, #0a0906)",
+    href: "https://vyaparai.vercel.app/",
+    ariaLabel: "Visit VyaparAI",
+    context: "CSRBOX · IBM SkillsBuild internship",
+    summary:
+      "An AI-driven business platform for Indian MSMEs, handling invoice OCR, inventory tracking, and expense management. Built during the CSRBOX / IBM SkillsBuild internship with an amber-and-black, editorial feel.",
+    tags: ["Next.js", "Firebase", "Gemini 2.5 Flash", "Tesseract.js"],
+    highlights: [
+      "Invoice OCR pipeline that pulls structured line items straight out of scanned bills and receipts.",
+      "Inventory tracking with live stock counts and low-stock visibility for small shop owners.",
+      "Expense management that groups spending into categories owners actually think in.",
+      "Amber-on-black editorial design with a classic serif voice.",
+    ],
+  },
+  {
+    id: "qrigo",
+    name: "Qrigo",
+    wordmark: "qrigo",
+    background: "linear-gradient(160deg, #150b2e, #30102e 50%, #1c1208)",
+    href: "https://qrigo.vercel.app/",
+    ariaLabel: "Visit Qrigo",
+    context: "Independent project",
+    summary:
+      "A free QR code and barcode generator with a signature purple-to-pink-to-amber gradient. Generate QR codes and barcodes with custom themes entirely in the browser — nothing uploaded to a server.",
+    tags: ["Next.js", "Tailwind CSS", "Client-side"],
+    highlights: [
+      "QR and barcode generation that runs fully in the browser.",
+      "Custom theme options that echo the site's signature gradient.",
+      "Light, fast interface with copy-and-download in one click.",
+    ],
+  },
+  {
+    id: "jashan3d",
+    name: "Jashan 3D",
+    wordmark: "jashan.3d",
+    background: "linear-gradient(160deg, #100a1d, #0d0718 55%, #090510)",
+    href: "https://jashan3d.vercel.app/",
+    ariaLabel: "Visit Jashan 3D",
+    context: "Independent project",
+    summary:
+      "A portfolio site with a real WebGL canvas, framed by the line \"I build intelligent systems where security meets innovation.\" Deep violet-black atmosphere with violet-and-teal wireframe accents.",
+    tags: ["Next.js", "Three.js", "WebGL"],
+    highlights: [
+      "Live WebGL scene rendered behind the hero copy.",
+      "Violet-black art direction with teal highlights and a mixed serif display.",
+      "Slow, deliberate motion language matching the security-meets-innovation thesis.",
+    ],
+  },
+];
 
 export type ExperienceItem = {
   role: string;

@@ -63,7 +63,7 @@ export function Hero() {
               href="#experience"
               className="inline-flex items-center gap-2 rounded-lg bg-primary px-[22px] py-[13px] text-sm font-medium text-primary-foreground transition-[transform,background-color,border-color] duration-[0.18s] ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:-translate-y-0.5 hover:bg-[#7ff0e1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]"
             >
-              See the work
+              See the journey
             </a>
             <a
               href={`mailto:${profile.email}`}
