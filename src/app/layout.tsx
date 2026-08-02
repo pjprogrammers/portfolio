@@ -1,6 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
-import Starfield from "@/components/starfield";
+import {
+  Fraunces,
+  Instrument_Serif,
+  Inter,
+  JetBrains_Mono,
+  Space_Grotesk,
+} from "next/font/google";
+import Loader from "@/components/loader";
+import SiteBackground from "@/components/webgl/site-background";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,6 +34,13 @@ const fraunces = Fraunces({
   style: ["italic"],
   weight: "500",
   display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -109,9 +123,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable} ${fraunces.variable} bg-background font-sans text-foreground antialiased`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable} ${fraunces.variable} ${instrumentSerif.variable} bg-background font-sans text-foreground antialiased`}
       >
-        <Starfield />
+        <Loader />
+        <SiteBackground />
         {children}
       </body>
     </html>

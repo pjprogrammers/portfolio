@@ -92,6 +92,7 @@
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
   --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-instrument-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -119,6 +120,9 @@
   --color-chart-5: var(--chart-5);
   --color-amber: #e8a672;
   --color-violet: #8f7cf0;
+  --color-brand-05: #f5f4f8;
+  --color-brand-30: #8c7cad;
+  --color-brand-70: #261647;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -154,6 +158,30 @@
 
   html {
     scroll-behavior: smooth;
+  }
+
+  html.scroll-locked,
+  html.scroll-locked body {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    touch-action: none;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain !important;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
   }
 
   body {
@@ -193,5 +221,11 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+@layer utilities {
+  .heading-2 {
+    @apply text-[32px] leading-[1.1em] min-[768px]:text-[40px] min-[1280px]:text-[48px] min-[1680px]:text-[64px];
   }
 }

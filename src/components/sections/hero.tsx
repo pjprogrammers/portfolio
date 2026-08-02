@@ -13,7 +13,7 @@ export function Hero() {
   const init = reduceMotion ? false : ({ opacity: 0, y: 24 } as const);
 
   return (
-    <section id="top" className="relative flex min-h-screen min-h-[100dvh] items-center pt-[72px]">
+    <section id="top" data-ambient-formation-hero className="relative flex min-h-screen min-h-[100dvh] items-center pt-[72px]">
       <HeroBlob reduced={reduceMotion} />
 
       <div className="relative z-10 mx-auto w-full max-w-[1160px] px-8">

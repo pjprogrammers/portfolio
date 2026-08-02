@@ -1,31 +1,71 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Lenis from "lenis";
+import { connectScrollTrigger } from "@/lib/gsap/connectScrollTrigger";
+import { resetScrollToTop } from "@/lib/scroll/resetScrollToTop";
+import { registerTickerCallback } from "@/lib/ticker";
+import { useGlobalStore } from "@/stores/global-store";
+import { useScrollStore } from "@/stores/scroll-store";
+import { useScrollMotionStore } from "@/stores/scroll-motion-store";
 
-export function LenisProvider({ children }: { children: React.ReactNode }) {
+type LenisProviderProps = {
+  children: React.ReactNode;
+};
+
+export function LenisProvider({ children }: LenisProviderProps) {
+  const setLenis = useScrollStore((state) => state.setLenis);
+  const setVelocity = useScrollMotionStore((state) => state.setVelocity);
+  const isLoading = useGlobalStore((state) => state.isLoading);
+  const lenisRef = useRef<Lenis | null>(null);
+
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-
     const lenis = new Lenis({
+      autoRaf: false,
       smoothWheel: true,
-      anchors: true,
-      lerp: 0.09,
     });
 
-    let rafId = 0;
-    function loop(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(loop);
+    lenis.on("scroll", ({ velocity, direction }) => {
+      setVelocity(velocity * direction);
+
+      if (Math.abs(velocity) > 0.01) {
+        useGlobalStore.getState().closeContactFormIfOpen();
+      }
+    });
+
+    const unregisterTicker = registerTickerCallback(({ timeMs }) => {
+      lenis.raf(timeMs);
+    });
+
+    lenisRef.current = lenis;
+    setLenis(lenis);
+    resetScrollToTop();
+
+    if (useGlobalStore.getState().isLoading) {
+      lenis.stop();
     }
-    rafId = requestAnimationFrame(loop);
+
+    const disconnectScrollTrigger = connectScrollTrigger(lenis);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      disconnectScrollTrigger();
+      unregisterTicker();
       lenis.destroy();
+      setLenis(null);
+      lenisRef.current = null;
+      setVelocity(0);
     };
-  }, []);
+  }, [setLenis, setVelocity]);
+
+  useEffect(() => {
+    if (!lenisRef.current) return;
+
+    const { enabled } = useScrollStore.getState();
+    const shouldAllowScroll = enabled && !isLoading;
+
+    if (shouldAllowScroll) lenisRef.current.start();
+    else lenisRef.current.stop();
+  }, [isLoading]);
 
   return <>{children}</>;
 }

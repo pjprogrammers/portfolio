@@ -4,7 +4,7 @@ import { about } from "@/lib/portfolio";
 
 export function About() {
   return (
-    <section id="about" className="py-[120px]">
+    <section id="about" data-ambient-formation-about className="py-[120px]">
       <div className="mx-auto max-w-[1160px] px-8">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
           <Reveal className="lg:col-span-5">
