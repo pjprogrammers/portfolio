@@ -600,9 +600,9 @@ export function createFooterRParticleField(
 
       // En el estado ambiental la figura ya llega con opacidad reducida
       // (prominence < 1); aquí se baja además el brillo/glow para que no
-      // sature el fondo. La R del footer mantiene el brillo original.
+      // sature el fondo. La R del footer comparte la base de brillo.
       brightness[i] =
-        (1.05 + wobbleBoost + twinkleBoost) *
+        (0.92 + wobbleBoost + twinkleBoost) *
         (inFooterFormation ? 1 : 0.85 + 0.15 * prominence);
     }
 
