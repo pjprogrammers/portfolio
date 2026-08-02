@@ -2,6 +2,7 @@ export function Footer() {
   return (
     <footer
       data-dissolve="in"
+      data-dissolve-start-ref="#education"
       data-dissolve-start="top bottom"
       data-dissolve-end="bottom bottom"
       className="border-t border-border py-7"

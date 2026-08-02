@@ -213,6 +213,16 @@ function setupDissolveScrollTriggers({
   footerRParticles: boolean;
   geometryParticles: boolean;
 }) {
+  /** Inicio absoluto de scroll donde el borde inferior del `startRef` roza el borde inferior del viewport. */
+  function startRefScrollPosition(ref: string | null, fallback: string) {
+    return () => {
+      const target = ref ? document.querySelector(ref) : null;
+      if (!target) return fallback;
+      const rect = target.getBoundingClientRect();
+      return rect.bottom + window.scrollY - window.innerHeight;
+    };
+  }
+
   if (geometryParticles) {
     for (const el of queryDissolveElements("out")) {
       const scroll = readDissolveScrollFromElement(el, "out");
@@ -279,7 +289,9 @@ function setupDissolveScrollTriggers({
           ease: "none",
           scrollTrigger: {
             trigger: el,
-            start: scroll.start,
+            start: scroll.startRef
+              ? startRefScrollPosition(scroll.startRef, scroll.start)
+              : scroll.start,
             end: scroll.end,
             scrub: scroll.scrub,
             markers: scroll.markers,

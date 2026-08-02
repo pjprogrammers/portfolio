@@ -154,8 +154,10 @@ export const FOOTER_R_PARTICLE_DRIFT_MAX = 0.018;
 /**
  * Fracción del scroll (0–1) de stagger radial en dissolve in.
  * Las anclas del centro entran primero; las del borde, al final.
+ * Se mantiene bajo porque el footer forma la J a lo largo de todo el
+ * recorrido desde el final de #education hasta el fondo de la página.
  */
-export const FOOTER_R_FORM_STAGGER = 0.72;
+export const FOOTER_R_FORM_STAGGER = 0.4;
 
 /** Extensión del área de spawn aleatorio respecto al canvas (0–1 por eje). */
 export const FOOTER_R_SPAWN_SPREAD = 0.92;

@@ -9,6 +9,9 @@ import {
  *   Con "in" + `data-geometry`: dissolve hacia esa geo usando `data-start`/`data-end`
  *     (fallback: `data-dissolve-start`/`data-dissolve-end`).
  *   Con "in" sin geometría: formación R con `data-dissolve-start`/`data-dissolve-end`.
+ *   data-dissolve-start-ref="#id"  (opcional) selector cuyo borde inferior marca el
+ *     inicio de la formación R (independiente del trigger; el final sigue siendo
+ *     `data-dissolve-end`).
  *   data-dissolve-scrub="0.6"   (opcional)
  *   data-markers="true"         (opcional, debug start/end)
  */
@@ -27,6 +30,7 @@ export function readDissolveScrollFromElement(el, type) {
 
   return {
     start: el.dataset.dissolveStart ?? defaults.start,
+    startRef: el.dataset.dissolveStartRef ?? null,
     end: el.dataset.dissolveEnd ?? defaults.end,
     scrub: Number.isNaN(scrub) ? defaults.scrub : scrub,
     markers: parseBoolean(el.dataset.markers),
