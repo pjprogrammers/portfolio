@@ -5,19 +5,31 @@ import { Reveal } from "@/components/reveal";
 import { WorkImageCard } from "@/components/work-image-card";
 import { work, type WorkItem } from "@/lib/portfolio";
 
-const MAX_ANGLE = 18;
-const MAX_SCALE = 0.08;
+const MAX_ANGLE = 28;
+const MAX_SCALE = 0.12;
+// Small screens scroll fast (flick/gesture), so use a stronger angle and a
+// snappier lerp there — otherwise the bend never catches up while the card
+// is on screen and it reads as no tilt at all.
+const MOBILE_MAX_ANGLE = 42;
+const MOBILE_MAX_SCALE = 0.18;
+const LERP = 0.2;
 
 function useScrollBend(ref: RefObject<HTMLDivElement | null>) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
+    const mq = window.matchMedia("(max-width: 1024px)");
+    let mobile = mq.matches;
+
     let current = 0;
     let raf = 0;
 
     const loop = () => {
       raf = requestAnimationFrame(loop);
+
+      const maxAngle = mobile ? MOBILE_MAX_ANGLE : MAX_ANGLE;
+      const maxScale = mobile ? MOBILE_MAX_SCALE : MAX_SCALE;
 
       const vh = window.innerHeight;
       const vCenter = vh / 2;
@@ -28,15 +40,23 @@ function useScrollBend(ref: RefObject<HTMLDivElement | null>) {
       let progress = (vCenter - elCenter) / (vCenter + rect.height / 2);
       progress = Math.max(-1, Math.min(1, progress));
 
-      current += (progress - current) * 0.12;
+      current += (progress - current) * LERP;
 
-      const angle = current * MAX_ANGLE;
-      const scale = 1 - Math.abs(current) * MAX_SCALE;
+      const angle = current * maxAngle;
+      const scale = 1 - Math.abs(current) * maxScale;
       el.style.transform = `perspective(1000px) rotateX(${angle.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
     };
 
+    const onMq = () => {
+      mobile = mq.matches;
+    };
+    mq.addEventListener("change", onMq);
+
     loop();
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      mq.removeEventListener("change", onMq);
+    };
   }, [ref]);
 }
 

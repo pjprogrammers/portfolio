@@ -92,6 +92,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   category: "technology",
+  verification: {
+    google: "yD0EuT3GHCroc_8sUd70Nt-puSwrlKEdsar7YRDcx_M",
+  },
 };
 
 export const viewport: Viewport = {
