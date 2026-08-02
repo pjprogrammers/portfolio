@@ -1,27 +1,48 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { useEffect, useRef, type RefObject } from "react";
 import { Reveal } from "@/components/reveal";
 import { WorkImageCard } from "@/components/work-image-card";
 import { work, type WorkItem } from "@/lib/portfolio";
 
-function bendTransform(p: number): string {
-  const q = Math.max(-1, Math.min(1, p * 2 - 1));
-  const angle = q * 18;
-  const scale = 1 - Math.abs(q) * 0.08;
-  return `perspective(1000px) rotateX(${angle.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+const MAX_ANGLE = 18;
+const MAX_SCALE = 0.08;
+
+function useScrollBend(ref: RefObject<HTMLDivElement | null>) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    let current = 0;
+    let raf = 0;
+
+    const loop = () => {
+      raf = requestAnimationFrame(loop);
+
+      const vh = window.innerHeight;
+      const vCenter = vh / 2;
+      const rect = el.getBoundingClientRect();
+      const elCenter = rect.top + rect.height / 2;
+      // -1 when the card center sits below the viewport center, 0 at center,
+      // +1 when it sits above. Mirrors the reference implementation.
+      let progress = (vCenter - elCenter) / (vCenter + rect.height / 2);
+      progress = Math.max(-1, Math.min(1, progress));
+
+      current += (progress - current) * 0.12;
+
+      const angle = current * MAX_ANGLE;
+      const scale = 1 - Math.abs(current) * MAX_SCALE;
+      el.style.transform = `perspective(1000px) rotateX(${angle.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+    };
+
+    loop();
+    return () => cancelAnimationFrame(raf);
+  }, [ref]);
 }
 
 function WorkRow({ item }: { item: WorkItem }) {
   const imgRef = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-
-  const { scrollYProgress } = useScroll({
-    target: imgRef,
-    offset: ["start end", "end start"],
-  });
-  const bend = useTransform(scrollYProgress, (p) => bendTransform(p));
+  useScrollBend(imgRef);
 
   return (
     <div className="relative">
@@ -31,17 +52,12 @@ function WorkRow({ item }: { item: WorkItem }) {
           aria-label={item.ariaLabel}
           className="group block cursor-pointer"
         >
-          <motion.div
+          <div
             ref={imgRef}
-            style={
-              reduce
-                ? undefined
-                : { transform: bend, transformOrigin: "50% 50%", willChange: "transform" }
-            }
-            className="mx-auto w-[min(920px,84%)] overflow-hidden transition-[filter] duration-[0.25s] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:brightness-[1.08] max-[700px]:w-full"
+            className="mx-auto w-[min(920px,84%)] origin-center overflow-hidden transition-[filter] duration-[0.25s] ease-[cubic-bezier(0.25,0.1,0.25,1)] will-change-transform group-hover:brightness-[1.08] max-[700px]:w-full"
           >
             <WorkImageCard item={item} />
-          </motion.div>
+          </div>
         </a>
 
         <div className="pointer-events-none absolute bottom-4 left-8 right-8 flex items-center justify-between max-[700px]:static max-[700px]:bottom-auto max-[700px]:left-auto max-[700px]:right-auto max-[700px]:border-b max-[700px]:border-border max-[700px]:bg-card max-[700px]:px-5 max-[700px]:py-[14px]">
