@@ -17,8 +17,10 @@
   - small chips         rounded-md (6px)
   - pill CTAs           rounded-full
 
-  PALETTE (locked from the source my.html, single dark theme):
-  - ink #090b10 background
+  PALETTE (deep-space blue-black, single dark theme):
+  - ink #020617 background (deep blue-black)
+  - deep-blue #050816 mid glow
+  - deep-blue #0A1024 highlight glow
   - surface #10141c cards
   - surface-2 #161c27 elevated
   - line rgba(237,239,243,0.09) hairlines
@@ -26,13 +28,13 @@
   - muted #8891a3
   - teal #63e8d8 primary accent
   - amber #e8a672 secondary accent
-  - violet #8f7cf0 tertiary accent
+  - violet #8f7cf0 tertiary accent (nav/charts only)
 */
 
 :root {
   --radius: 0.5rem;
 
-  --background: #090b10;
+  --background: #020617;
   --foreground: #edeff3;
   --card: #10141c;
   --card-foreground: #edeff3;
@@ -60,7 +62,7 @@
 }
 
 .dark {
-  --background: #090b10;
+  --background: #020617;
   --foreground: #edeff3;
   --card: #10141c;
   --card-foreground: #edeff3;
@@ -122,7 +124,7 @@
   --color-violet: #8f7cf0;
   --color-brand-05: #f5f4f8;
   --color-brand-30: #8c7cad;
-  --color-brand-70: #261647;
+  --color-brand-70: #0a1024;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

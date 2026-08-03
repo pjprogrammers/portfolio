@@ -192,12 +192,12 @@ export const FOOTER_R_GROUP_ROTATION_SPEED = 9;
  *
  * @example
  * [
- *   { hex: "#3F2476", percent: 70 },
+ *   { hex: "#4E6E96", percent: 70 },
  *   { hex: "#FFFFFF", percent: 30 },
  * ]
  */
 export const GLOBAL_PARTICLE_COLORS = [
-  { hex: "#58467b", percent: 100 },
+  { hex: "#4E6E96", percent: 100 },
   // { hex: "#8C7CAD", percent: 10 },
   // { hex: "#3F2476", percent: 10 },
 ];

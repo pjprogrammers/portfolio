@@ -1,7 +1,7 @@
 /** Paleta default del gradiente (color1 = highlight → color2 = base oscura). */
 export const DEFAULT_SHADER_COLORS = {
-  color1: "#0D0718",
-  color2: "#3F2476",
+  color1: "#0A1024",
+  color2: "#020617",
 };
 
 /** % del canvas que ocupa cada banda (color1 = highlight → color2 = base). Suma ~100. */
@@ -35,4 +35,4 @@ export const DEFAULT_BLOOM_THRESHOLD = 0.02;
 export const DEFAULT_BLOOM_SMOOTHING = 0.3;
 
 export const CSS_FALLBACK_GRADIENT =
-  "radial-gradient(ellipse at 45% 35%, #634E7E 0%, #403052 45%, #030205 100%)";
+  "radial-gradient(ellipse at 45% 35%, #0A1024 0%, #050816 45%, #020617 100%)";

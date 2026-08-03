@@ -21,7 +21,7 @@ export type GraphicsProfile = {
 const HIGH_PROFILE: GraphicsProfile = {
   tier: "high",
   dpr: 2,
-  particleCount: 4000,
+  particleCount: 1400,
   particleTwinklePercent: 40,
   particleTwinkleIntensity: 3.5,
   shaderParticleCount: 10000,
@@ -34,7 +34,7 @@ const HIGH_PROFILE: GraphicsProfile = {
 const MEDIUM_PROFILE: GraphicsProfile = {
   tier: "medium",
   dpr: 1.5,
-  particleCount: 2800,
+  particleCount: 980,
   particleTwinklePercent: 20,
   particleTwinkleIntensity: 1.8,
   shaderParticleCount: 6000,
@@ -47,7 +47,7 @@ const MEDIUM_PROFILE: GraphicsProfile = {
 const LOW_PROFILE: GraphicsProfile = {
   tier: "low",
   dpr: 1,
-  particleCount: 1800,
+  particleCount: 630,
   particleTwinklePercent: 0,
   particleTwinkleIntensity: 0,
   shaderParticleCount: 3000,

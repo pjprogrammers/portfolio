@@ -50,7 +50,7 @@ import {
   shapeAnchorSurfaceState,
 } from "./shapeVertexMorph.js";
 
-export const FOOTER_R_PARTICLE_COUNT = 4000;
+export const FOOTER_R_PARTICLE_COUNT = 1400;
 const CURSOR_RADIUS = 78;
 const CURSOR_PUSH = 34;
 const CURSOR_RETURN_SPEED = 5.2;
