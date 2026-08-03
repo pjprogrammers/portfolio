@@ -8,6 +8,7 @@ import {
 } from "next/font/google";
 import Loader from "@/components/loader";
 import SiteBackground from "@/components/webgl/site-background";
+import { PerformanceViewer } from "@/components/dev/PerformanceViewer";
 import "./globals.css";
 
 const inter = Inter({
@@ -128,6 +129,7 @@ export default function RootLayout({
         <Loader />
         <SiteBackground />
         {children}
+        <PerformanceViewer />
       </body>
     </html>
   );

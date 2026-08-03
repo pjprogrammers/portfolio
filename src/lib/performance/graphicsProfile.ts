@@ -54,7 +54,7 @@ const LOW_PROFILE: GraphicsProfile = {
   enableBloom: false,
   fboScale: 0.7,
   antialias: false,
-  maxFps: 30,
+  maxFps: 60,
 };
 
 let cachedProfile: GraphicsProfile | null = null;

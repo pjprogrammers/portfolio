@@ -1,10 +1,13 @@
 import { getGraphicsProfile } from "@/lib/performance/graphicsProfile";
+import { getEffectiveDpr } from "@/lib/performance/adaptiveDpr";
 import { isPageVisible, registerTickerCallback } from "@/lib/ticker";
 
 export type PerformanceSnapshot = {
   fps: number;
   frameMs: number;
   gsapDeltaMs: number;
+  /** FPS reales medidos con rAF independiente del ticker (fuente de verdad). */
+  rafFps: number;
   pageVisible: boolean;
   r3fConsumers: number;
   canvasCount: number;
@@ -14,6 +17,7 @@ export type PerformanceSnapshot = {
   deviceMemoryGb: number | null;
   hardwareConcurrency: number | null;
   devicePixelRatio: number;
+  effectiveDpr: number | null;
   graphicsTier: string;
   graphicsDpr: number;
   particleCount: number;
@@ -35,6 +39,9 @@ let frameTimes: number[] = [];
 let lastSampleMs = 0;
 let lastStaticSampleMs = 0;
 let gsapDeltaMs = 0;
+let rafFrames = 0;
+let rafWindowStart = 0;
+let rafFps = 0;
 let r3fConsumers = 0;
 let cachedCanvasCount = 0;
 let cachedWebglRenderer: string | null = null;
@@ -43,6 +50,7 @@ const emptySnapshot: PerformanceSnapshot = {
   fps: 0,
   frameMs: 0,
   gsapDeltaMs: 0,
+  rafFps: 0,
   pageVisible: true,
   r3fConsumers: 0,
   canvasCount: 0,
@@ -52,6 +60,7 @@ const emptySnapshot: PerformanceSnapshot = {
   deviceMemoryGb: null,
   hardwareConcurrency: null,
   devicePixelRatio: 1,
+  effectiveDpr: null,
   graphicsTier: "high",
   graphicsDpr: 2,
   particleCount: 0,
@@ -118,6 +127,7 @@ function buildSnapshot(fps: number, timeMs: number): PerformanceSnapshot {
     fps,
     frameMs: fps > 0 ? 1000 / fps : 0,
     gsapDeltaMs,
+    rafFps,
     pageVisible: isPageVisible(),
     r3fConsumers,
     canvasCount: cachedCanvasCount,
@@ -132,6 +142,7 @@ function buildSnapshot(fps: number, timeMs: number): PerformanceSnapshot {
         : null,
     devicePixelRatio:
       typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
+    effectiveDpr: getEffectiveDpr(),
     graphicsTier: profile.tier,
     graphicsDpr: profile.dpr,
     particleCount: profile.particleCount,
@@ -167,10 +178,27 @@ function onTick({ timeMs, deltaMs }: { timeMs: number; deltaMs: number }) {
   notifyListeners();
 }
 
+function countRafFrame(t: number) {
+  rafFrames += 1;
+  if (t - rafWindowStart >= 1000) {
+    rafFps = Math.round((rafFrames * 1000) / (t - rafWindowStart));
+    rafFrames = 0;
+    rafWindowStart = t;
+  }
+}
+
 function ensureStarted() {
   if (started) return;
   started = true;
   unregisterTicker = registerTickerCallback(onTick);
+  rafFrames = 0;
+  rafWindowStart = performance.now();
+  rafFps = 0;
+  const rafLoop = () => {
+    countRafFrame(performance.now());
+    if (started) requestAnimationFrame(rafLoop);
+  };
+  rafLoop();
   snapshot = buildSnapshot(0, performance.now());
 }
 
@@ -180,6 +208,9 @@ function ensureStopped() {
   unregisterTicker = null;
   started = false;
   frameTimes = [];
+  rafFrames = 0;
+  rafWindowStart = 0;
+  rafFps = 0;
   snapshot = { ...emptySnapshot };
 }
 

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { registerR3FAdvance } from "@/lib/ticker/r3fAdvance";
 
 const VERTEX_SHADER = /* glsl */ `
   uniform float uTime;
@@ -98,10 +99,12 @@ const FRAGMENT_SHADER = /* glsl */ `
 
 function Blob({
   reduced,
+  visible,
   scale,
   containerRef,
 }: {
   reduced: boolean;
+  visible: boolean;
   scale: number;
   containerRef: RefObject<HTMLDivElement | null>;
 }) {
@@ -142,6 +145,9 @@ function Blob({
   }, [reduced, containerRef]);
 
   useFrame((state) => {
+    if (mesh.current) mesh.current.visible = visible;
+    if (!visible) return;
+
     if (reduced) {
       frameSkip.current++;
       if (frameSkip.current % 4 !== 0) return;
@@ -203,6 +209,8 @@ export default function HeroBlob({ reduced = false }: { reduced?: boolean }) {
     return () => io.disconnect();
   }, [reduced]);
 
+  useEffect(() => registerR3FAdvance(), []);
+
   useEffect(() => {
     const update = () => setTier(tierFor(window.innerWidth, window.innerHeight));
     update();
@@ -217,13 +225,13 @@ export default function HeroBlob({ reduced = false }: { reduced?: boolean }) {
       className="pointer-events-none absolute top-0 right-0 z-0 h-full w-[56%] opacity-95 max-[900px]:inset-x-0 max-[900px]:w-full max-[900px]:opacity-55 tablet-portrait:inset-x-0 tablet-portrait:w-full tablet-portrait:opacity-55"
     >
       <Canvas
-        frameloop={!visible ? "demand" : "always"}
+        frameloop="never"
         flat
         dpr={[1, 2]}
         camera={{ position: [0, 0, 4.4], fov: 42, near: 0.1, far: 100 }}
-        gl={{ alpha: true, antialias: true }}
+        gl={{ alpha: true, antialias: false }}
       >
-        <Blob reduced={reduced} containerRef={containerRef} scale={TIER_CONFIG[tier]} />
+        <Blob reduced={reduced} visible={visible} containerRef={containerRef} scale={TIER_CONFIG[tier]} />
       </Canvas>
     </div>
   );

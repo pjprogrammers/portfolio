@@ -5,6 +5,7 @@ import { Canvas } from "@react-three/fiber";
 import type { WebGLRenderer } from "three";
 import { getGraphicsProfile } from "@/lib/performance/graphicsProfile";
 import { registerR3FAdvance } from "@/lib/ticker/r3fAdvance";
+import { useAdaptiveDpr } from "@/lib/performance/useAdaptiveDpr";
 import SiteWebGLScene from "./SiteWebGLScene.jsx";
 import { useParticleScrollAnimation } from "./useParticleScrollAnimation";
 import {
@@ -43,6 +44,16 @@ export type SiteWebGLCanvasProps = {
   scrollGradientUpSpeed?: number;
   colorBlend?: number;
 };
+
+/** Degrada la resolución del canvas cuando el renderer no alcanza el FPS objetivo. */
+function AdaptiveDpr() {
+  const startDpr = Math.min(
+    typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
+    getGraphicsProfile().dpr,
+  );
+  useAdaptiveDpr(startDpr);
+  return null;
+}
 
 function SiteWebGLCanvas({
   enableShaderBackground = true,
@@ -138,6 +149,7 @@ function SiteWebGLCanvas({
         onError={() => setWebglFailed(true)}
       >
         <Suspense fallback={null}>
+          <AdaptiveDpr />
           <SiteWebGLScene
             containerRef={containerRef}
             enableShaderBackground={enableShaderBackground}
