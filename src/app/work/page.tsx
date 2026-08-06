@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "Work",
   description:
     "Selected work from Jashan Singla — Tavryne Wallpapers, Tavryne AI, VyaparAI, Qrigo, and Jashan 3D, explained.",
+  alternates: {
+    canonical: "/work",
+  },
 };
 
 export default function WorkPage() {
