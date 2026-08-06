@@ -6,6 +6,7 @@ import {
   JetBrains_Mono,
   Space_Grotesk,
 } from "next/font/google";
+import { education, profile, skills } from "@/lib/portfolio";
 import Loader from "@/components/loader";
 import SiteBackground from "@/components/webgl/site-background";
 import { PerformanceViewer } from "@/components/dev/PerformanceViewer";
@@ -46,6 +47,9 @@ const instrumentSerif = Instrument_Serif({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://jashansingla.vercel.app"),
+  alternates: {
+    canonical: "/",
+  },
   title: {
     default: "Jashan Singla — Security Research & AI Systems",
     template: "%s | Jashan Singla",
@@ -54,6 +58,12 @@ export const metadata: Metadata = {
     "Jashan Singla. Penetration testing, digital forensics, OSINT, and agentic AI development.",
   keywords: [
     "Jashan Singla",
+    "Jashan",
+    "jashansingla",
+    "Jashan Singla portfolio",
+    "Jashan Singla cybersecurity",
+    "Jashan Singla AI",
+    "Jashan Singla Sirsa",
     "cybersecurity",
     "penetration testing",
     "digital forensics",
@@ -109,11 +119,60 @@ export const metadata: Metadata = {
   category: "technology",
   verification: {
     google: "yD0EuT3GHCroc_8sUd70Nt-puSwrlKEdsar7YRDcx_M",
+    other: {
+      "msvalidate.01": "REPLACE_WITH_BING_WEBMASTER_VERIFICATION_CODE",
+    },
   },
 };
 
 export const viewport: Viewport = {
   themeColor: "#090b10",
+};
+
+const siteUrl = "https://jashansingla.vercel.app";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: `${siteUrl}/`,
+      name: "Jashan Singla",
+      alternateName: "jashansingla",
+      description:
+        "Jashan Singla. Penetration testing, digital forensics, OSINT, and agentic AI development.",
+      inLanguage: "en",
+    },
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#person`,
+      url: `${siteUrl}/`,
+      name: "Jashan Singla",
+      alternateName: ["Jashan", "jashansingla", "Jashan Singla cybersecurity"],
+      givenName: "Jashan",
+      familyName: "Singla",
+      jobTitle: profile.role,
+      worksFor: {
+        "@type": "Organization",
+        name: profile.org,
+      },
+      email: `mailto:${profile.email}`,
+      image: `${siteUrl}/opengraph-image`,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Sirsa",
+        addressRegion: "Haryana",
+        addressCountry: "IN",
+      },
+      alumniOf: {
+        "@type": "CollegeOrUniversity",
+        name: education.school,
+      },
+      knowsAbout: skills,
+      sameAs: [profile.linkedin],
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -126,6 +185,10 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable} ${fraunces.variable} ${instrumentSerif.variable} bg-background font-sans text-foreground antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <Loader />
         <SiteBackground />
         {children}

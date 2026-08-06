@@ -34,7 +34,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.1, ease }}
             className="mb-6 font-display text-[clamp(2.6rem,5.4vw,4.4rem)] font-semibold leading-[1.06] tracking-[-0.02em] text-foreground"
           >
-            I look for the door{" "}
+            <span className="sr-only">Jashan Singla. </span>I look for the door{" "}
             <em className="bg-[linear-gradient(100deg,var(--primary),var(--amber))] bg-clip-text text-transparent not-italic">
               nobody locked
             </em>
